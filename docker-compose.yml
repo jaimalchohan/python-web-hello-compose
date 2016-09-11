@@ -1,0 +1,12 @@
+version: '2'
+services:
+  flask:
+    build: ./docker-flask-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ~/Github/python/src:/app
+  nginx:
+    build: ./docker-nginx-server
+    ports:
+      - "80:80"
