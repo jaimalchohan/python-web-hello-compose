@@ -97,3 +97,26 @@ The [hello.ini](/hello.ini) contains some additional options for running in prod
 1. [hello.conf](/hello.conf): This contains some configuration that causes NGINX to
   1. Listen to port 5000 on the `defualt_server` (127.0.0.1)
   2. For all Requests with the location `/` (which will match all Requests) forward the traffic via wsgi onto the socket, which we defined in [hello.ini](/hello.ini)
+
+### The Startup script
+
+The Startup script [start.sh](/start.sh) contains some commands we need to run to on our server to make the site run.  The server is a custom ubuntu image, explained in the [Docker](#docker) section.  
+
+The startup script has 5 commands:
+
+1. `pip3 install -r requirements.txt`: Download and Install the python modules defined in the requirements file
+1. `uwsgi --ini hello.ini --daemonize uwsgi-daemon.log`: Start the python application in uWSGI as a daemon (background process) and send the logs somewhere useful
+1. `cp /var/www/app/hello.conf /etc/nginx/sites-available/hello.conf`: Copy our NGINX configuration to the NGINX directory
+1. `ln -s -f /etc/nginx/sites-available/hello.conf /etc/nginx/sites-enabled/hello`: Enable the site by setting up a symlink in `sites-enabled`:  This is the way NGINX does it, there are reasons, read the NGINX docs.
+1. `service nginx restart`: Restart the NGINX service
+
+You can run this anytime any code or configuration changes and you want to see the impact.
+If you want this to auto-reload then there are ways to do this in uWSGI, however I'm not digging into them as I don't need it much for what I'm building.
+
+### Docker
+
+Were going to be breaking a rule of Docker in that Docker be practice is for 1 role per, but we are going to have 2 roles in the same container (a HTTP server to handle HTTP Requests and a WSGI server to host a Python application).  This simplifies our environment a bit.
+
+The Docker config is stored in the [Dockerfile](/Dockerfile)
+
+It's pretty self explanatory so I won't go into it. Basically install some stuff, create a directory for our app, ensure port 80 is available and start NGINX.
