@@ -1,3 +1,7 @@
+## Prequisites
+
+1. Docker (solution was built using Docker for Mac Version 1.12.0)
+
 ## How to run it
 
 1. Build the Docker image
