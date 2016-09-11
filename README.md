@@ -66,6 +66,14 @@
 
    The uWSGI configuration consists of 2 files
    1. [wsgi.py](/wsgi.py): This is the python needed by uWSGI ti start the Flash application. It imports the `app` from the the `hello.py` application file
-   2. hello.ini: This is the uWSGI ini file containing the configuration options needed to run the server
+   2. [hello.ini](/hello.ini): This is the uWSGI ini file containing the configuration options needed to run the server
 
-3.
+   You can test the application runs under uWSGI by running:
+   '''
+   uwsgi --http-socket :5000 --plugin python3 -w wsgi --callable app
+   '''
+   This won't use the [hello.ini](hello.ini) file but will prove that the application runs in the uWSGI server.
+
+  The [hello.ini](/hello.ini) contains some additional options.  
+
+3. nginx
