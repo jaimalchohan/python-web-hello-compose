@@ -42,6 +42,7 @@
 ### The Python application
 
 The python application consists of 2 files.
+
 1. [hello.py](/hello.py): This is the actual code of the application
 2. [requirements.txt](/requirements.txt): This defines the modules required by the application
 
@@ -65,6 +66,7 @@ Flask does ship with its own wsgi server, but it's rudimentary and doesn't handl
 There are a few WSGI servers to choose from; I chose [uWSGI](https://github.com/unbit/uwsgi) becuase it seemed popular.
 
 The uWSGI configuration consists of 2 files
+
 1. [wsgi.py](/wsgi.py): This is the python needed by uWSGI ti start the Flash application. It imports the `app` from the the `hello.py` application file
 2. [hello.ini](/hello.ini): This is the uWSGI ini file containing the configuration options needed to run the server when using a webserver (like Apache or NGINX)
 
@@ -91,6 +93,7 @@ The [hello.ini](/hello.ini) contains some additional options for running in prod
 [NGINX](https://www.nginx.com) is a high performance HTTP server. We're going to use [NGINX](https://www.nginx.com) to handle out HTTP traffic, and pass on Requests to the Python application that is hosted in uWSGI.  
 
 [NGINX](https://www.nginx.com) ships with WSGI support enabled by default, so all we need to do is provide some configuration.  The NGINX configuration consists of 1 file
+
 1. [hello.conf](/hello.conf): This contains some configuration that causes NGINX to
   1. Listen to port 5000 on the `defualt_server` (127.0.0.1)
   2. For all Requests with the location `/` (which will match all Requests) forward the traffic via wsgi onto the socket, which we defined in [hello.ini](/hello.ini)
